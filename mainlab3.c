@@ -1,90 +1,86 @@
 //hello
 #include <stdio.h> 
-#define n 5
+#define ROW_COLUMN_SIZE 5
 
-void bul(int a[n][n]);
-void print_matrix(int a[n][n]);
-int calc_matrix(int a[n][n]);
-
-int main()
-
+void buble_sort(int array[][ROW_COLUMN_SIZE])
 {
-	int a[n][n] = {{9, 67, -65, 45, 1},
-				  {12, 61, 48, -5, -1},
-				  {0, 39, 0, 41, 2},
-				  {36, 95, -8, -5, 0},
-				  {11, 22, 71, 3, 63}};
-	int res;
+	int row, short_index, column, temporary_place;
+	int *pointer;
 
-	printf("before sourting \n");
-	print_matrix(a);
-
-	printf("\n");
-    bul(a);
-	
-	printf("after sourting \n");
-	print_matrix(a);
-
-	res = calc_matrix(a);
-	printf("F = %d \n", res);
-
-	getch();
-}
-
-
-void bul(int a[n][n])
-{
-	int i, k, j, c;
-	int *pr;
-
-	for (i = 0; i < n; i++)//перебираємо рядки мариці 
+	for (row = 0; row < ROW_COLUMN_SIZE; row++)
 	{
-		for (k = n - 1; k >= 0; k--)//повторення перестановок поки ел не впорядкуюься
+		for (short_index = ROW_COLUMN_SIZE - 1; short_index >= 0; short_index--)
 		{
-			for (j = 0; j < k; j++)//цикл для повівняння і перестановки пар значень в рядку
+			for (column = 0; column < short_index; column++)
 			{
-				pr = &a[i][j];
+				pointer = &array[row][column];
 
-				if (*pr < *(pr + 1))//повівняння пари значень в рядку
+				if (*pointer < *(pointer + 1))
 				{
-					c = *pr;
-					*pr = *(pr + 1);
-					*(pr + 1) = c;
+					temporary_place = *pointer;
+					*pointer = *(pointer + 1);
+					*(pointer + 1) = temporary_place;
 				}
 			}
 		}
 	}
 }
 
-void print_matrix(int a[n][n])
+void print_matrix(int array[][ROW_COLUMN_SIZE])
 {
-	int i, j;
-	for (i = 0; i < n; i++)
+	int row, column;
+	for (row = 0; row < ROW_COLUMN_SIZE; row++)
 	{
-		for (j = 0; j < n; j++)
+		for (column = 0; column < ROW_COLUMN_SIZE; column++)
 		{
-			printf("%5d", a[i][j]);
+			printf("%5d", array[row][column]);
 		}
 		printf("\n");
 	}
 }
 
-int calc_matrix(int a[n][n])
+int calc_matrix(int array[][ROW_COLUMN_SIZE])
 {
-	int i, j, res = 1, sum = 0;
+	int row, column, result = 1, sum = 0;
 
-	for (j = 1; j < n; j++)
+	for (column = 1; column < ROW_COLUMN_SIZE; column++)
 	{
-		for (i = 0; i < j; i++)
+		for (row = 0; row < column; row++)
 		{
-		
-			sum = sum + a[i][j];
+			printf("%5d", array[row][column]);
+			sum = sum + array[row][column];
 		}
 
-		res = res * sum;
-		printf("\ncol[%d] sum = %d res = %d \n", j, sum, res);
+		result = result * sum;
+		printf(" sum = %d result = %d \n", sum, result);
 		sum = 0;
 	}
+
+	return result;
+}
+
+int main()
+{
+	int matrix[ROW_COLUMN_SIZE][ROW_COLUMN_SIZE] = { {9, 67, -65, 45, 1},
+				  {12, 61, 48, -5, -1},
+				  {0, 39, 0, 41, 2},
+				  {36, 95, -8, -5, 0},
+				  {11, 22, 71, 3, 63} };
+	int result;
+
+	printf("before sourting \n");
+	print_matrix(matrix);
+
+	printf("\n");
+	buble_sort(matrix);
+
+	printf("after sourting \n");
+	print_matrix(matrix);
+
+	result = calc_matrix(matrix);
+	printf("Matrix = %d \n", result);
+
+	getch();
 }
 
 
